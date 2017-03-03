@@ -177,8 +177,7 @@ def main():
 			else:
 				print "[-] The target is not a Wordpress site so cannot be brute-forced"
 				exit(0)
-	except Exception, err:
-		print err
+	except:
 		pass
 
 	print "Program will save the logs on /bin/web-map/logs.txt"
