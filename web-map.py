@@ -53,7 +53,7 @@ def save_logs(tgt):
 	f.write("\n\n\n")
 	f.write("----------------END OF LOGS----------------\n\n")
 def brute(tgt):
-	DEFAULT = "/bin/web-map/default_uris"
+	DEFAULT = "/bin/web-map/default_uris.txt"
 	paths_found = []
 	logs_path = "/bin/web-map/logs.txt"
 	dictionary = raw_input("Enter the file with the URI\'s, type: \"default\" for using the default dictionary: ")
