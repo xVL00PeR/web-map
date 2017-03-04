@@ -41,8 +41,7 @@ def test_connection(tgt):
 			return 0
 	except:
 		return 0 
-def save_logs(tgt):
-	paths_found = []
+def save_logs(tgt, paths_found):
 	logs_path = "/bin/web-map/logs.txt"
 	f = open(logs_path, "w")
 	f.write("Target: "+tgt+"\n\nPaths found:\n")
@@ -56,7 +55,7 @@ def brute(tgt):
 	DEFAULT = "/bin/web-map/default_uris.txt"
 	paths_found = []
 	logs_path = "/bin/web-map/logs.txt"
-	dictionary = raw_input("Enter the file with the URI\'s, type: \"default\" for using the default dictionary: ")
+	dictionary = raw_input("Enter the file with the URI\'s,\n type: \"default\" for using the default dictionary: ")
 	if dictionary == "default":
 		dictionary = DEFAULT
 	try:
@@ -83,7 +82,7 @@ def brute(tgt):
 			break
 	print "\n[*] Execution ended correctly\n"
 	print "[*] Program logs are at "+logs_path+"\n"
-	save_logs(tgt)
+	save_logs(tgt, paths_found)
 	robots = str(tgt)+'/robots.txt'
 	response = s.get(robots).text
 	if '404' not in response and 'Error accessing resource' not in response and 'Page not found' not in response and 'was not found on this server' not in response and 'Missing: One Page' not in response:
