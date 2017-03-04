@@ -197,7 +197,7 @@ def main():
 					print "[+] File: "+new_path+" created!"
 				except:
 					print '[-] Could not create the file,\nplese try to create it manually'
-					quit = raw_input("Doy you want to quit the program? Y/n ")
+					quit = raw_input("Do you want to quit the program? Y/n ")
 					if quit == 'y' or quit == 'Y':
 						exit(0)			
 		logs_path = new_path
