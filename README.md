@@ -15,8 +15,8 @@
 
 
 # How do I install web-map?:
-	1.- Type "chmod 755 setup.py" on your terminal
-	2.- Type "./setup.py" on your terminal
+	1.- Type "chmod 755 installer.py" on your terminal
+	2.- Type "./installer.py" on your terminal
 	3.- After installing web-map, run the program by typing "./web-map.py"
 
 This program is on early-release, so may be plenty of bugs, sorry for the inconvenience.
